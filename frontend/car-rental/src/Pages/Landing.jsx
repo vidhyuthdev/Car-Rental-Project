@@ -14,7 +14,7 @@ const Landing = () => {
             <div className='text-white text-xl font-light cursor-pointer'>How It Works</div>
             <div className='text-white text-xl font-light cursor-pointer'>Contact</div>
           </div>
-          {/* <button className='bg-custom-grey py-2 px-5 rounded-3xl text-white font-bold'>Log In/Sign Up</button> */}
+          
           <button className="bg-custom-grey py-2 cursor-pointer px-5 rounded-3xl text-white font-bold transition-transform transform hover:scale-105 hover:shadow-lg">
                   Log In/Sign Up
           </button>
