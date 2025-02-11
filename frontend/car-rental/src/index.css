@@ -2,9 +2,11 @@
 @theme {
     --color-custom-dark: #0E131F;
     /* --color-custom-grey:#B3B8B9; */
-    --color-custom-grey:#A0A5A6
+    --color-custom-grey:#A0A5A6;
+    --color-custom-lightblue:#A0C4FF;
   }
 *{
     
-    font-family: "Raleway"; 
+    font-family: "Raleway";
+    box-sizing: border-box; 
 }

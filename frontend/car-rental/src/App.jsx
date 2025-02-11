@@ -1,13 +1,5 @@
 import React from 'react'
-import Landing from './Pages/Landing'
-// const App = () => {
-//   return (
-//     <div className='text-green-500'>
-//       Initial Commit
-//     </div>
-//   )
-// }
-
+import Landing from './Pages/LandingPage/Landing'
 const App=()=>{
   return(
     <Landing/>
