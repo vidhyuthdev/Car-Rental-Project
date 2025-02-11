@@ -12,10 +12,10 @@ const AuthPage = () => {
   return (
     <div className='h-screen flex flex-col'>
         <div onClick={()=>HandleNavigateClick()}
-        className='text-custom-dark bg-gray-100  sm:text-4xl text-2xl font-black cursor-pointer'>Rent<span className='text-custom-dark  sm:text-4xl text-2xl font-black'>Wheels</span></div>
+        className='text-custom-dark bg-gray-100  sm:text-4xl text-2xl font-black cursor-pointer p-3'>Rent<span className='text-custom-dark  sm:text-4xl text-2xl font-black'>Wheels</span></div>
         <div className="flex justify-center items-center flex-grow bg-gray-100">
             
-        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
             <h2 className="text-center text-2xl font-semibold mb-6 text-custom-dark">
             {isSignUp ? 'Sign Up' : 'Log In'}
             </h2>
@@ -41,7 +41,7 @@ const AuthPage = () => {
             
             <button 
                 type="submit" 
-                className="w-full py-2 bg-[#0E131F] text-white rounded-lg hover:opacity-90 transition"
+                className="w-full py-2 bg-[#0E131F] text-white rounded-lg hover:opacity-90 transition cursor-pointer"
             >
                 {isSignUp ? 'Sign Up' : 'Log In'}
             </button>
