@@ -2,13 +2,13 @@ const cardData=[
     {
         keyVal:0,
         id:'01',
-        heading:'Find a car',
+        heading:'Find A Car',
         desc:'Browse through our fleet and choose the perfect car that fits your needs and budget.Filter by model, price, or features to make your selection effortless.'
     },
     {
         keyVal:1,
         id:'02',
-        heading:'Book rental',
+        heading:'Book Rental',
         desc:'Select your rental dates and confirm availability with just a few clicks. Flexible booking options let you plan your trip hassle-free.'
     },
     {
