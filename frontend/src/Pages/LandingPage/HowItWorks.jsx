@@ -1,8 +1,8 @@
-import Cards from "./Cards"
+import Cards from "./HowItWorksCards"
 import cardData from "../../assets/Data/LandingPageCard";
 const HowItWorks = () => {    
   return (
-    <div className="bg-custom-dark pb-10">
+    <div className="bg-custom-dark pb-10 mt-14">
         <div className=' mt-6 text-center text-custom-lightblue font-bold text-4xl'>
             How it Works
         </div>

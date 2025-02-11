@@ -8,6 +8,7 @@ const HeroSection = () => {
   {
     navigate('/auth')
   }
+  
   return (
     <div className='h-[550px] relative'>      
     <div className="bg-[url('/asset2.jpg')] bg-cover bg-right h-full absolute inset-0 z-0" />      
