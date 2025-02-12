@@ -13,7 +13,7 @@ const signIn= async (req, res) => {
     
     if (!currentUser) {
       console.log('No user found:', email);
-      return res.status(404).send('User not found'); 
+      return res.status(404).json({msg:'User not found'}); 
     }
   
     
@@ -21,10 +21,10 @@ const signIn= async (req, res) => {
 
     if (match) {
       console.log('Password verified successfully!');
-      return res.send({msg:'Login successful',flag:true});
+      return res.json({msg:'Login successful',flag:true});
     } else {
       console.log('Password does not match');
-      return res.status(401).send({msg:'Invalid password',flag:false});
+      return res.status(401).json({msg:'Invalid password',flag:false});
     }
   };
 
@@ -34,18 +34,8 @@ const signUp=async (req, res) => {
     const { email, password } = req.body;
   
     try {
-      
-      const currentUser = await User.findByPk(email);
-  
-      if (currentUser) {
-        
-        console.log('User already exists!');
-        return res.status(400).send('User already exists!');
-      }
-  
-      
+               
       const hashOfPassword = await bcrypt.hash(password, saltRounds);
-  
   
       const newUser = await User.create({
         email: email,
@@ -55,11 +45,11 @@ const signUp=async (req, res) => {
       console.log('New user created:');
       
       
-      return res.status(201).send({msg:'User successfully created!',flag:true});
+      return res.status(201).json({msg:'User successfully created!',flag:true});
     } catch (err) {
       console.error('Error during signup:', err);
       
-      return res.status(500).send({msg:'An error occurred while processing your request.',flag:false});
+      return res.status(500).json({msg:'An error occurred while processing your request.',flag:false});
     }
   }
 module.exports={signIn,signUp}
