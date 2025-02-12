@@ -6,9 +6,10 @@ const duplicateSignUpValidator=async(req,res,next)=>{
         const currentUser = await User.findByPk(email);      
           if (!currentUser) 
             {            
-                console.log("User doesn't exist!");
+      
                 return res.status(400).json({msg:'User with this email does not exist!'});
             }
+            req.user=currentUser
         next();
         
     } 

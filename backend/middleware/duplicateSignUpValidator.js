@@ -6,8 +6,8 @@ const duplicateSignUpValidator=async(req,res,next)=>{
         const currentUser = await User.findByPk(email);      
           if (currentUser) 
             {            
-                console.log('User already exists!');
-                return res.status(400).json({msg:'User with same email already exists!'});
+                
+                return res.status(409).json({msg:'User with same email already exists!'});
             }
         next();
         
