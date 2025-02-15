@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useVerifyToken from '../../Hooks/useVerifyToken';
-
-
-const HomePage = () => {
-    const navigate = useNavigate();
+import toast from 'react-hot-toast';
+const BookCar = () => {
+  const navigate = useNavigate();
     const { verifyToken} = useVerifyToken();
 
     useEffect(() => {
@@ -13,19 +12,20 @@ const HomePage = () => {
           console.log(response);
                    
           if(!flag)
-            navigate('/auth')         
+          {
+            console.log(response);
+            
+            toast.error("Please Log In")
+            navigate('/auth')     
+          }    
       };
       checkToken();
   }, []);
-  
-   
+  return (
+    <div>
+      Building....
+    </div>
+  )
+}
 
-    return (
-        <>
-        Being Built
-       
-        </>
-    );
-};
-
-export default HomePage;
+export default BookCar

@@ -11,7 +11,7 @@ const AuthPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const { handleSubmitForm, error, loading } = useAuth(isSignUp, activeTab);
+  const { handleSubmitForm,loading } = useAuth(isSignUp, activeTab);
 
   const [formData, setFormData] = useState({
     name: "",

@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useVerifyToken from '../../Hooks/useVerifyToken';
-
-
-const HomePage = () => {
-    const navigate = useNavigate();
+import toast from 'react-hot-toast';
+const UserProfile = () => {
+  const navigate = useNavigate();
     const { verifyToken} = useVerifyToken();
 
     useEffect(() => {
@@ -13,19 +12,18 @@ const HomePage = () => {
           console.log(response);
                    
           if(!flag)
+          {
+            toast.error("Plase Log In")
             navigate('/auth')         
+          }
       };
       checkToken();
   }, []);
-  
-   
+  return (
+    <div>
+    Building....
+  </div>
+  )
+}
 
-    return (
-        <>
-        Being Built
-       
-        </>
-    );
-};
-
-export default HomePage;
+export default UserProfile

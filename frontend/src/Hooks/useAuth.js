@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-
+import toast from 'react-hot-toast';
 const useAuth = (isSignUp, activeTab) => {
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+ 
   const [loading, setLoading] = useState(false);
 
   const handleSubmitForm = async (formData) => {
     if (activeTab === "user") {
-      setError("");
+      
       setLoading(true);
 
       try {
@@ -25,14 +25,15 @@ const useAuth = (isSignUp, activeTab) => {
           navigate("/home");
         }
       } catch (err) {
-        setError(err.response?.data?.msg || "Something went wrong");
+        toast.error(err.response?.data?.msg || "Something went wrong")
+        
       } finally {
         setLoading(false);
       }
     }
   };
 
-  return { handleSubmitForm, error, loading };
+  return { handleSubmitForm, loading };
 };
 
 export default useAuth;
