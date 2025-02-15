@@ -8,6 +8,6 @@ const userExistsValidator=require('../middleware/userExistsValidator')
 
 
 router.post('/signin',authSchemaValidator.validateEmail,userExistsValidator,authController.signIn)
-router.post('/signup',authSchemaValidator.validateEmail,authSchemaValidator.validatePassword,duplicateSignUpValidator,authController.signUp)
+router.post('/signup',authSchemaValidator.validateEmail,authSchemaValidator.validateUserFields,duplicateSignUpValidator,authController.signUp)
 
 module.exports=router

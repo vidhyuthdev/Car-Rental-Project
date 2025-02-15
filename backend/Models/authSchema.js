@@ -25,4 +25,26 @@ const passwordSchema = Joi.object({
     }),
 });
 
-module.exports = { emailSchema, passwordSchema };
+const nameSchema = Joi.object({
+  name: Joi.string()
+    .pattern(/^[A-Za-z\s]+$/, 'letters')
+    .required()
+    .messages({
+      'string.pattern.name': 'Name can only contain letters and spaces.',
+      'string.empty': 'Name is required.',
+    }),
+});
+
+const phoneSchema = Joi.object({
+  mobile: Joi.string()
+    .length(10)
+    .pattern(/^\d+$/, 'digits')
+    .required()
+    .messages({
+      'string.length': 'Mobile number must be exactly 10 digits.',
+      'string.pattern.name': 'Mobile number can only contain digits.',
+      'string.empty': 'Mobile number is required.',
+    }),
+});
+
+module.exports = { emailSchema, passwordSchema, nameSchema, phoneSchema };

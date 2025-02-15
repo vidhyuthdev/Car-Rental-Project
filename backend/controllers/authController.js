@@ -30,27 +30,29 @@ const signIn= async (req, res) => {
 
 
 
-const signUp=async (req, res) => {
-    const { email, password } = req.body;
-  
+  const signUp = async (req, res) => {
+    const { name, email, mobile, password } = req.body;
+
     try {
-               
-      const hashOfPassword = await bcrypt.hash(password, saltRounds);
-  
-      const newUser = await User.create({
-        email: email,
-        hash: hashOfPassword,
-      });
-  
-      
-      const token=jwt.sign({email},process.env.JWT_KEY,{expiresIn:'1h'})
-      
-      return res.status(200).json({msg:'User successfully created!',token});
+       
+        const hashOfPassword = await bcrypt.hash(password, saltRounds);
+
+        
+        const newUser = await User.create({
+            name: name,
+            email: email,
+            mobile: mobile,
+            hash: hashOfPassword,
+        });
+
+       
+        const token = jwt.sign({ email }, process.env.JWT_KEY, { expiresIn: '1h' });
+
+        return res.status(200).json({ msg: 'User successfully created!', token });
     } 
-    catch (err) 
-    {   
-      
-      return res.status(500).json({msg:'An error occurred while processing your request.'});
+    catch (err) {   
+        return res.status(500).json({ msg: 'An error occurred while processing your request.' });
     }
-  }
+};
+
 module.exports={signIn,signUp}

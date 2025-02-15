@@ -1,6 +1,7 @@
 const User=require('../Models/User');
 const duplicateSignUpValidator=async(req,res,next)=>{
-    const email=req.body.email
+    const email=req.body.email;
+    const mobile=req.body.mobile;
     try 
     {
         const currentUser = await User.findByPk(email);      
@@ -9,6 +10,9 @@ const duplicateSignUpValidator=async(req,res,next)=>{
                 
                 return res.status(409).json({msg:'Account with email already exists'});
             }
+        const userWithSameMobile=await User.findOne({where:{mobile:mobile}})
+        if(userWithSameMobile)
+            return res.status(409).json({msg:'Account with phone already exists'});
         next();
         
     } 
