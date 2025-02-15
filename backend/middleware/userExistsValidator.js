@@ -1,5 +1,5 @@
 const User=require('../Models/User')
-const duplicateSignUpValidator=async(req,res,next)=>{
+const userExistsValidator=async(req,res,next)=>{
     const email=req.body.email;
     try 
     {
@@ -7,7 +7,7 @@ const duplicateSignUpValidator=async(req,res,next)=>{
           if (!currentUser) 
             {            
       
-                return res.status(400).json({msg:'User with this email does not exist!'});
+                return res.status(404).json({msg:'User does not exist'});
             }
             req.user=currentUser
         next();
@@ -19,4 +19,4 @@ const duplicateSignUpValidator=async(req,res,next)=>{
     }
     
 }
-module.exports=duplicateSignUpValidator
+module.exports=userExistsValidator

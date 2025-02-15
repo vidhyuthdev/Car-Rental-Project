@@ -7,7 +7,7 @@ const duplicateSignUpValidator=async(req,res,next)=>{
           if (currentUser) 
             {            
                 
-                return res.status(409).json({msg:'User with same email already exists!'});
+                return res.status(409).json({msg:'Account with email already exists'});
             }
         next();
         
