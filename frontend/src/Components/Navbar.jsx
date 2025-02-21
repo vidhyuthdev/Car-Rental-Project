@@ -77,7 +77,7 @@ const Navbar = () => {
         </div>        
       </div>
       
-      <div className={`fixed top-0 left-0 h-full bg-custom-dark w-[220px] flex flex-col px-4 pt-14 justify-between z-50 transform transition-transform duration-300
+      <div className={`fixed md:relative top-0 left-0 min-h-full bg-custom-dark w-[220px] flex flex-col px-4 pt-14 justify-between z-50 transform transition-transform duration-300
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
         <div className="flex flex-col gap-14">
@@ -125,7 +125,7 @@ const Navbar = () => {
 
       {isOpen && (
         <div 
-          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-40 md:hidden"
+          className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40 md:hidden"
           onClick={toggleMenu}
         ></div>
       )}
