@@ -10,6 +10,7 @@ const userExistsValidator=async(req,res,next)=>{
                 return res.status(404).json({msg:'User does not exist'});
             }
             req.user=currentUser
+            console.log(currentUser);
         next();
         
     } 

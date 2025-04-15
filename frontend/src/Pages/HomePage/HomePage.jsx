@@ -10,7 +10,7 @@ const HomePage = () => {
 
     useEffect(() => {
       const checkToken = async () => {
-          const {response,flag}=await verifyToken();         
+          const {response,flag}=await verifyToken();        
           if(!flag)
           {           
            toast.error(response)
@@ -35,9 +35,9 @@ const HomePage = () => {
             </div>
 
             {/* Quick Booking Form */}
-            <div className="bg-white p-6 rounded-2xl shadow-lg">
+            <div className="bg-white p-6 rounded-2xl shadow-lg flex flex-col gap-3">
                 <h2 className="text-2xl font-semibold mb-4">Quick Booking</h2>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 grid-rows-4 sm:grid-cols-4 sm:grid-rows-1 gap-4">
                     <div className="flex flex-col">
                         <div>Enter Location</div>
                     <input type="text" placeholder="Pickup Location" className="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400"/>
@@ -51,7 +51,7 @@ const HomePage = () => {
                     <input type="date" className="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400"/>
                     </div>
                     <div className="flex justify-center items-center">
-                    <button className="bg-custom-dark text-white text-center px-2 py-2 rounded-lg shadow-md hover:bg-blue-700 transition cursor-pointer">
+                    <button className="bg-custom-dark text-white text-center px-4 py-3 rounded-lg shadow-md hover:bg-blue-700 transition cursor-pointer">
                         Find a Car
                     </button>
                     </div>
