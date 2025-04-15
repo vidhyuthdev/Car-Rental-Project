@@ -1,4 +1,4 @@
-const User=require('../Models/User');
+const {User}=require('../Models/User');
 const bcrypt=require('bcrypt')
 const saltRounds=13;
 const jwt=require('jsonwebtoken')
@@ -14,7 +14,7 @@ const signIn= async (req, res) => {
       if (match) {
       
       const token=jwt.sign({email:user.email},process.env.JWT_KEY,{expiresIn:'1h'})
-      return res.status(200).json({msg:'Login successful',token});
+      return res.status(200).json({msg:'Login successful',token,email:user.email,name:user.name});
       } 
       else {
       
@@ -48,7 +48,7 @@ const signIn= async (req, res) => {
        
         const token = jwt.sign({ email }, process.env.JWT_KEY, { expiresIn: '1h' });
 
-        return res.status(200).json({ msg: 'User successfully created!', token });
+        return res.status(200).json({ msg: 'User successfully created!', token,email,name });
     } 
     catch (err) {   
         return res.status(500).json({ msg: 'An error occurred while processing your request.' });

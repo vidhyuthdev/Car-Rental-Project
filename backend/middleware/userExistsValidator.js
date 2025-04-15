@@ -1,4 +1,4 @@
-const User=require('../Models/User')
+const {User}=require('../Models/User')
 const userExistsValidator=async(req,res,next)=>{
     const email=req.body.email;
     try 

@@ -29,13 +29,13 @@ const HomePage = () => {
             {/* Welcome Section */}
             <div className="bg-gradient-to-r to-[#7e9bca] from-[#3A5A98] text-white p-6 rounded-2xl flex justify-between items-center shadow-lg">
                 <div>
-                    <h1 className="text-3xl font-bold">Welcome, User!</h1>
+                    <h1 className="text-3xl font-bold">{`Welcome, ${localStorage.getItem('name')}`}</h1>
                     <p className="text-sm text-gray-200">Ready to hit the road? Find your perfect car now.</p>
                 </div>
             </div>
 
             {/* Quick Booking Form */}
-            <div className="bg-white p-6 rounded-2xl shadow-lg flex flex-col gap-3">
+            {/* <div className="bg-white p-6 rounded-2xl shadow-lg flex flex-col gap-3">
                 <h2 className="text-2xl font-semibold mb-4">Quick Booking</h2>
                 <div className="grid grid-cols-1 grid-rows-4 sm:grid-cols-4 sm:grid-rows-1 gap-4">
                     <div className="flex flex-col">
@@ -56,7 +56,7 @@ const HomePage = () => {
                     </button>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* Active Booking (If Exists) */}
             <div className="bg-white p-6 rounded-2xl shadow-lg">

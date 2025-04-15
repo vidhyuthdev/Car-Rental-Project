@@ -1,4 +1,4 @@
-const User=require('../Models/User');
+const {User}=require('../Models/User');
 const duplicateSignUpValidator=async(req,res,next)=>{
     const email=req.body.email;
     const mobile=req.body.mobile;
