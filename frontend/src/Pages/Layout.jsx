@@ -4,9 +4,9 @@ import Navbar from "../Components/Navbar";
 
 const Layout = () => {
   return (
-    <div className="h-screen w-screen flex">
+    <div className="h-screen w-screen flex flex-col md:flex-row">
       <Navbar />
-      <div className="w-[calc(100vw-250px)]">
+      <div className="flex-1 overflow-y-scroll">
         <Outlet /> 
       </div>
     </div>
