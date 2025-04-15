@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useVerifyToken from '../../Hooks/useVerifyToken';
 import toast from 'react-hot-toast';
 import api from "../../api"
-import CarCardComponent from "./CarCardComponent";
+
 import LoadingSkeletons from "./LoadingSkeletons";
 
 const BookCar = () => {
@@ -12,6 +12,12 @@ const BookCar = () => {
   const [filter,setFilter]=useState({location:null,startDate:null,endDate:null,type:null});
   const [cars,setCars]=useState([]);
   const [isLoading,setIsLoading]=useState(false);
+  const [page, setPage] = useState(1);
+  const carsPerPage = 8;
+  const startIndex = (page - 1) * carsPerPage;
+  const endIndex = startIndex + carsPerPage;
+  const currentCars = cars.slice(startIndex, endIndex);
+
 
   useEffect(() => {
     const checkToken = async () => {
@@ -40,6 +46,43 @@ const BookCar = () => {
     finally{
       setIsLoading(false);
     }
+  }
+
+  const sortHandler=(e)=>{
+    console.log(e.target.value);
+    
+    let sortedCars=cars;
+    if(e.target.value==0)
+    {
+      sortedCars = [...cars].sort((a, b) => a.price - b.price);
+      setCars(sortedCars);
+      return;
+    }
+    else if(e.target.value==1)
+    {
+      sortedCars = [...cars].sort((a, b) => b.price - a.price);
+      setCars(sortedCars);
+      return
+    }   
+  }
+
+  const bookHandler=async(c_id)=>{
+    const t=localStorage.getItem('token');
+
+    try {
+      const bookingDetails={
+        token:t,
+        carId:c_id,
+        startDate:filter.startDate,
+        endDate:filter.endDate
+      }
+    const response=await api.post('/booking/book',bookingDetails)
+    toast.success('Booking Requested')
+    } catch (error) {
+      toast.error(error.response.data.msg)
+      
+    }
+
   }
 
   return (
@@ -118,30 +161,72 @@ const BookCar = () => {
       {/* Sort & View Toggle */}
       <div className="flex justify-between items-center mb-4">
         <div className="text-gray-600 text-xs">Sort by: {/* Smaller text */}
-          <select className="ml-2 border p-1 rounded-md text-sm">
-            <option value={"Price"}>Price (Low to High)</option>
-            <option value={"Rating"}>Rating</option>
+          <select onChange={(e)=>{sortHandler(e)}} className="ml-2 border p-1 rounded-md text-sm">
+            <option value={-1}>Select Sort Option</option>
+            <option value={0}>Price (Low to High)</option>
+            <option value={1}>Price (High to Low)</option>
           </select>
         </div>
       </div>
 
       {/* Car Cards */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"> 
-        {cars.map((_, i) => (
-          <CarCardComponent key={i} car={_} />
-         
-        ))}
-      </div> */}
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-  {isLoading
-    ? Array.from({ length: 8 }).map((_, i) => <LoadingSkeletons key={i} />)
-    : cars.map((car, i) => (
-        <CarCardComponent key={i} car={car} />
-      ))
-  }
-</div>
+      
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      {isLoading
+        ? Array.from({ length: 8 }).map((_, i) => <LoadingSkeletons key={i} />)
+        : currentCars.map((car, i) => (
+          <div className="border rounded-2xl shadow-md overflow-hidden text-sm">
+          <img src={car.imageURL} alt="Car" className="w-full h-40 object-cover" />
+          <div className="p-3">
+            <h2 className="text-sm font-semibold mb-1">{car.model}</h2>
+            <p className="text-xs text-gray-500">{car.type}</p>
+            <p className="text-xs text-gray-500">{car.location}</p>
+            <p className="mt-1 font-semibold">₹{car.price} / day</p>
+            <button
+             className="mt-2 w-full bg-custom-blue text-white py-1 rounded-lg text-sm cursor-pointer"
+             onClick={()=>bookHandler(car.id)}
+             >Book Now</button>
+          </div>
+        </div>
+        ))
+      }
+    </div>
 
-      <div className="mt-5 flex justify-end">Page 1 of x</div>
+
+
+    <div className="mt-5 flex justify-center gap-2 items-center">
+        <button
+          className={`px-4 py-2 rounded-md font-semibold transition-colors duration-200
+            ${page === 1
+              ? 'bg-custom-grey text-white cursor-not-allowed'
+              : 'bg-custom-blue text-white hover:bg-custom-lightblue cursor-pointer'}
+          `}
+          disabled={page === 1}
+          onClick={() => {
+            setPage(page - 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        >
+          Prev
+        </button>
+        <span className="mx-2 text-custom-dark font-medium bg-custom-lightblue px-3 py-1 rounded">
+          Page {page} of {Math.ceil(cars.length / carsPerPage)}
+        </span>
+        <button
+          className={`px-4 py-2 rounded-md font-semibold transition-colors duration-200
+            ${endIndex >= cars.length
+              ? 'bg-custom-grey text-white cursor-not-allowed'
+              : 'bg-custom-blue text-white hover:bg-custom-lightblue cursor-pointer'}
+          `}
+          disabled={endIndex >= cars.length}
+          onClick={() => {
+            setPage(page + 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

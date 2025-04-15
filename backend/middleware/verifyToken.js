@@ -9,8 +9,7 @@ const verifyToken=(req,res,next)=>{
     
     try {
         const result=jwt.verify(token,process.env.JWT_KEY);            
-    
-
+        req.body.email=result.email      
         next();
         
     } catch (error) {      

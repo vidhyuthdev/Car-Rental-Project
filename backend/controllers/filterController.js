@@ -7,14 +7,14 @@ const filterController=async(req,res,next)=>{
         let cars;
         if(type!='*')
         {
-            cars=await Cars.findAll({attributes:['model','location','type','price','imageURL'],where:{
+            cars=await Cars.findAll({attributes:['model','location','type','price','imageURL','id'],where:{
                 location:location,
                 type:type
             }})
         }
         else
         {
-            cars=await Cars.findAll({attributes:['model','location','type','price','imageURL'],where:{
+            cars=await Cars.findAll({attributes:['model','location','type','price','imageURL','id'],where:{
                 location:location,
                
             }})
