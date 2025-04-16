@@ -19,6 +19,8 @@ const useVerifyToken = () => {
             response = error.response?.data?.msg || "An error occurred";
 
             localStorage.removeItem('token');
+            localStorage.removeItem("email");
+            localStorage.removeItem('name');
             flag = false;
         }
         return { response, flag };

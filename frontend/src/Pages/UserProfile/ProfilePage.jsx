@@ -1,7 +1,7 @@
 const ProfilePage = () => {
   return(
     <>
-    hi
+    Rando
     </>
   )
 };

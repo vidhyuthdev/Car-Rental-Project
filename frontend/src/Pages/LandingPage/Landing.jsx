@@ -7,7 +7,7 @@ const Landing = () => {
   return (
     <>
       <HeroSection/>
-      <AboutUs/>
+      {/* <AboutUs/> */}
       <HowItWorks/>
     </>
   );
