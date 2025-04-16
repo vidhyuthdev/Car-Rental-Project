@@ -247,7 +247,7 @@ import { useNavigate } from "react-router-dom";
 import useVerifyToken from '../../Hooks/useVerifyToken';
 import toast from 'react-hot-toast';
 import api from "../../api"
-
+import { IoMdClose } from "react-icons/io";
 import LoadingSkeletons from "./LoadingSkeletons";
 
 const BookCar = () => {
@@ -288,10 +288,12 @@ const BookCar = () => {
       const response=await api.post('/booking/filter',{token:t,parameters:filter});  
       setCars(response.data.cars); 
       setAppliedFilters({ ...filter }); 
-      console.log(cars);
+      
                  
     } catch (error) {      
-      toast.error(error.response.data.msg);      
+      toast.error(error.response.data.msg);   
+      if(error.response?.status==401)
+        navigate('/auth');   
     }
     finally{
       setIsLoading(false);
@@ -299,7 +301,7 @@ const BookCar = () => {
   }
 
   const sortHandler=(e)=>{
-    console.log(e.target.value);
+    
     
     let sortedCars=cars;
     if(e.target.value==0)
@@ -341,7 +343,7 @@ const BookCar = () => {
       <div className="mb-4 grid grid-cols-1 md:grid-cols-5 gap-4">
         <div className="flex flex-col justify-center">
             <label htmlFor="location" className="block text-xs font-medium text-gray-700">Location</label>
-          <select onChange={(e)=>{setFilter({...filter,location:e.target.value}); console.log(filter);}} id="location" className="p-2 border rounded-md col-span-1 w-full text-sm">
+          <select onChange={(e)=>{setFilter({...filter,location:e.target.value});}} id="location" className="p-2 border rounded-md col-span-1 w-full text-sm">
             <option value="NONE">Select City</option>
             <option value="Mumbai">Mumbai</option>
             <option value="Delhi">Delhi</option>
@@ -369,7 +371,7 @@ const BookCar = () => {
             type="date"
             id="start-date"
             className="p-2 border rounded-md col-span-1 w-full text-sm"
-              onChange={(e)=>{setFilter({...filter,startDate:e.target.value}); console.log(filter);}}
+              onChange={(e)=>{setFilter({...filter,startDate:e.target.value});}}
             min={new Date().toISOString().split('T')[0]}
             max={filter.endDate?filter.endDate:""}
             
@@ -382,7 +384,7 @@ const BookCar = () => {
             type="date"
             id="end-date"
             className="p-2 border rounded-md col-span-1 w-full text-sm"
-            onChange={(e)=>{setFilter({...filter,endDate:e.target.value}); console.log(filter);}}
+            onChange={(e)=>{setFilter({...filter,endDate:e.target.value});}}
 
             min={filter.startDate?filter.startDate:new Date().toISOString().split('T')[0]}
           />
@@ -393,7 +395,7 @@ const BookCar = () => {
           <select
             id="car-type"
             className="p-2 border rounded-md col-span-1 w-full text-sm"
-            onChange={(e)=>{setFilter({...filter,type:e.target.value}); console.log(filter);}}
+            onChange={(e)=>{setFilter({...filter,type:e.target.value});}}
           >
             <option value="NONE">Select a Type</option>
             <option value={'*'}>All Types</option>
@@ -488,9 +490,13 @@ const BookCar = () => {
       
       
       {showConfirm && selectedCar && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div className="fixed inset-0 bg-[#000000b3] flex justify-center items-center z-50">
     <div className="bg-white rounded-xl p-6 w-[90%] max-w-md shadow-lg text-sm">
-      <h2 className="text-lg font-bold mb-3">Confirm Booking?</h2>
+      <div className="flex justify-between">
+        <h2 className="text-lg font-bold mb-3">Confirm Booking?</h2>
+        <IoMdClose className="cursor-pointer" onClick={()=>setShowConfirm(false)}/>
+      </div>
+      
       <p><span className="font-semibold">Car:</span> {selectedCar.model}</p>
       <p><span className="font-semibold">From:</span> {appliedFilters.startDate}</p>
       <p><span className="font-semibold">To:</span> {appliedFilters.endDate}</p>
@@ -506,13 +512,13 @@ const BookCar = () => {
       <div className="mt-4 flex justify-end gap-2">
         <button
           onClick={() => setShowConfirm(false)}
-          className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+          className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer"
         >
           Cancel
         </button>
         <button
           onClick={()=>bookHandler()}
-          className="px-3 py-1 bg-custom-blue text-white rounded hover:bg-custom-lightblue"
+          className="px-3 py-1 bg-custom-blue text-white rounded hover:bg-custom-lightblue cursor-pointer"
         >
           Confirm
         </button>
