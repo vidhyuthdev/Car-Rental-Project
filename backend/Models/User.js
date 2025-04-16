@@ -100,6 +100,18 @@ const Bookings = sequelize.define('Bookings', {
     endDate: {
         type: DataTypes.DATEONLY,
         allowNull: false
+    },
+    status: {
+        type: DataTypes.ENUM('Approved', 'Not Approved', 'Cancelled'),
+        defaultValue: 'Not Approved',
+        allowNull: false
+    },
+    bookingValue: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            min: 0  // Ensure it's non-negative
+        }
     }
 }, {
     tableName: 'Bookings',
