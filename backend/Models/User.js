@@ -26,41 +26,6 @@ const User = sequelize.define('User', {
     tableName: 'Users',
     timestamps: false 
 });
-// const Cars = sequelize.define('Cars', {
-//     id: {
-//         type: DataTypes.INTEGER,
-//         primaryKey: true,
-//         autoIncrement: true, 
-//         allowNull: false
-//     },
-//     model: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     location: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     registrationNumber: {
-//         type: DataTypes.STRING,
-//         allowNull: false,
-//         unique: true 
-//     },
-//     type: {
-//         type: DataTypes.ENUM('Electric', 'Petrol', 'Diesel'),
-//         allowNull: false
-//     },
-//     price: {
-//         type: DataTypes.INTEGER,  // or DataTypes.DECIMAL if you want to store it as a float
-//         allowNull: false,
-//         validate: {
-//             min: 0  // Make sure the price is not negative
-//         }
-//     }
-// }, {
-//     tableName: 'Cars',
-//     timestamps: false
-// });
 const Cars = sequelize.define('Cars', {
     id: {
         type: DataTypes.INTEGER,
@@ -104,4 +69,58 @@ const Cars = sequelize.define('Cars', {
     timestamps: false
 });
 
-module.exports = {User,Cars};
+const Bookings = sequelize.define('Bookings', {
+    bookingId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'email'
+        },
+        onDelete: 'CASCADE'
+    },
+    carId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Cars,
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
+    },
+    startDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    endDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.ENUM('Approved', 'Not Approved', 'Cancelled'),
+        defaultValue: 'Not Approved',
+        allowNull: false
+    },
+    bookingValue: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            min: 0  // Ensure it's non-negative
+        }
+    }
+}, {
+    tableName: 'Bookings',
+    timestamps: false
+});
+User.hasMany(Bookings, { foreignKey: 'email' });
+Bookings.belongsTo(User, { foreignKey: 'email' });
+
+Cars.hasMany(Bookings, { foreignKey: 'carId' });
+Bookings.belongsTo(Cars, { foreignKey: 'carId' });
+
+module.exports = {User,Cars,Bookings};
