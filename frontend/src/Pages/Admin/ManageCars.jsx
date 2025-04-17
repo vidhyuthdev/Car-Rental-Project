@@ -66,16 +66,14 @@ const ManageCars = () => {
   };
 
   const handleAddCar = async () => {
-   
     const { model, location, registrationNumber, type, price, imageURL } = formData;
     if (!model || !location || !registrationNumber || !type || !price || !imageURL) {
       toast.error("Please fill all fields");
       return;
     }
-    
-    
+
     try {
-      await api.post('/admin/add-car', {form:formData,token:localStorage.getItem('token')});
+      await api.post('/admin/add-car', { form: formData, token: localStorage.getItem('token') });
       toast.success("Car added successfully");
       setFormData({ model: '', location: '', registrationNumber: '', type: '', price: '', imageURL: '' });
       fetchCarData();
@@ -83,36 +81,31 @@ const ManageCars = () => {
       if (err.response?.status === 401) {
         localStorage.removeItem('token');
         navigate('/auth');
-        }
-      else
-      {
+      } else {
         toast.error(err?.response?.data?.msg || err.message || "Something went wrong");
-       
       }
-        
-
     }
   };
 
   const handleEditCar = async () => {
     const { carId, imageURL, price } = editData;
-    if (!carId || !imageURL || !price||Number(price)<=0) {
+    if (!carId || !imageURL || !price || Number(price) <= 0) {
       toast.error("Please fill all fields correctly");
       return;
     }
 
     try {
-      await api.post('/admin/edit-car', { car:{id:carId, imageURL:imageURL, price:price},token:localStorage.getItem('token') });
+      await api.post('/admin/edit-car', { car: { id: carId, imageURL, price }, token: localStorage.getItem('token') });
       toast.success("Car details updated successfully");
       setEditData({ carId: null, imageURL: '', price: '' });
       fetchCarData();
-    } catch (err) { 
+    } catch (err) {
       if (err.response?.status === 401) {
-      localStorage.removeItem('token');
-      navigate('/auth');
+        localStorage.removeItem('token');
+        navigate('/auth');
+      } else {
+        toast.error("Failed to update car details");
       }
-      else
-      toast.error("Failed to update car details");
     }
   };
 
@@ -123,6 +116,10 @@ const ManageCars = () => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const cancelEdit = () => {
+    setEditData({ carId: null, imageURL: '', price: '' });
   };
 
   useEffect(() => {
@@ -188,9 +185,14 @@ const ManageCars = () => {
                   </TableCell>
                   <TableCell>
                     {editData.carId === car.id ? (
-                      <Button onClick={handleEditCar} color="primary" variant="contained">
-                        Save
-                      </Button>
+                      <>
+                        <Button onClick={handleEditCar} color="primary" variant="contained" sx={{ mr: 1 }}>
+                          Save
+                        </Button>
+                        <Button onClick={cancelEdit} color="error" variant="outlined">
+                          Cancel
+                        </Button>
+                      </>
                     ) : (
                       <Button onClick={() => setEditData({ carId: car.id, price: car.price, imageURL: car.imageURL })} color="secondary">
                         Edit
