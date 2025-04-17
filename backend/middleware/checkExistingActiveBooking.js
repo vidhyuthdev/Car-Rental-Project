@@ -1,4 +1,5 @@
 const { Bookings } = require('../Models/User');
+const { Op } = require('sequelize');  
 
 const checkExistingActiveBooking = async (req, res, next) => {
   const { email } = req.body;
@@ -7,7 +8,14 @@ const checkExistingActiveBooking = async (req, res, next) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); 
 
-    const existingBookings = await Bookings.findAll({ where: { email } });
+    const existingBookings = await Bookings.findAll({
+      where: {
+        email,
+        status: {
+          [Op.notIn]: ['Cancelled', 'Rejected'] 
+        }
+      }
+    });
 
     const hasActiveBooking = existingBookings.some((booking) => {
       const bookingEnd = new Date(booking.endDate);

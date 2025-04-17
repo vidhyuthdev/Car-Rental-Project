@@ -9,7 +9,7 @@ const getUserBookings = async (req, res) => {
             model:Cars,
             attributes:['model',"registrationNumber",]
         },
-        attributes:['carId','startDate','endDate','status','bookingValue'],
+        attributes:['carId','startDate','endDate','status','bookingValue','bookingId'],
       where: { email: email }
     });    
     res.status(200).json({ bookings });

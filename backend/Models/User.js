@@ -102,7 +102,7 @@ const Bookings = sequelize.define('Bookings', {
         allowNull: false
     },
     status: {
-        type: DataTypes.ENUM('Approved', 'Not Approved', 'Cancelled'),
+        type: DataTypes.ENUM('Approved', 'Not Approved', 'Cancelled','Rejected'),
         defaultValue: 'Not Approved',
         allowNull: false
     },
@@ -117,10 +117,27 @@ const Bookings = sequelize.define('Bookings', {
     tableName: 'Bookings',
     timestamps: false
 });
+const Admin = sequelize.define('Admin', {
+    email: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        allowNull: false,
+        validate: {
+            isEmail: true
+        }
+    },
+    hash: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+}, {
+    tableName: 'Admins',
+    timestamps: false
+});
 User.hasMany(Bookings, { foreignKey: 'email' });
 Bookings.belongsTo(User, { foreignKey: 'email' });
 
 Cars.hasMany(Bookings, { foreignKey: 'carId' });
 Bookings.belongsTo(Cars, { foreignKey: 'carId' });
 
-module.exports = {User,Cars,Bookings};
+module.exports = {User,Cars,Bookings,Admin};

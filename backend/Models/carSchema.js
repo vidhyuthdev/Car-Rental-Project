@@ -46,7 +46,15 @@ const carSchema = Joi.object({
 
   price: Joi.number()
     .greater(0)
+    .required(),
+
+  imageURL: Joi.string()
+    .uri()
     .required()
+    .messages({
+      'string.uri': 'imageURL must be a valid URI.'
+    })
 });
+
 
 module.exports = { carSchema };

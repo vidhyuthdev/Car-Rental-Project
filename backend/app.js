@@ -4,6 +4,8 @@ const app=express();
 const authRouter=require('./routes/authRoutes')
 const bookingRouter=require('./routes/bookingRoutes')
 const profileRoutes=require('./routes/profileRoutes')
+const adminAuthRoutes=require('./routes/adminAuthRoutes')
+const adminRoutes=require('./routes/adminRoutes')
 const {sequelize}=require('./Models/Sequelize')
 const verifyToken=require('./middleware/verifyToken')
 const cors=require('cors');
@@ -17,7 +19,8 @@ app.use('/auth',authRouter);
 app.use('/verify-token',verifyToken,(req,res)=>{return res.status(200).json({});})
 app.use('/booking',bookingRouter);
 app.use('/profile',profileRoutes)
-
+app.use('/admin/auth',adminAuthRoutes)
+app.use('/admin',adminRoutes);
 
 
 

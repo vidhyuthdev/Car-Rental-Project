@@ -7,25 +7,31 @@ import Layout from './Pages/Layout'
 import BookCar from './Pages/BookCar/BookCar'
 import UserBookings from './Pages/UserBookings/UserBookings'
 import UserProfile from './Pages/UserProfile/UserProfile'
-
-const App=()=>{
-  return(
-    
-      <BrowserRouter>
+import AdminLayout from './AdminLayout'
+import Approvals from './Pages/Admin/Approvals'
+import ManageCars from './Pages/Admin/ManageCars'
+const App = () => {
+  return (
+    <BrowserRouter>
       <Routes>
-        <Route element={<Layout/>}>
-          <Route path='/home' element={<HomePage/>}/>
-          <Route path='/book' element={<BookCar/>}/>
-          <Route path='/my-bookings' element={<UserBookings/>}/>
-          <Route path='/profile' element={<UserProfile/>}/>
+        {/* User Routes */}
+        <Route element={<Layout />}>
+          <Route path='/home' element={<HomePage />} />
+          <Route path='/book' element={<BookCar />} />
+          <Route path='/my-bookings' element={<UserBookings />} />
+          <Route path='/profile' element={<UserProfile />} />
         </Route>
-        <Route path='/' element={<Landing/>}/>
-        <Route path='/auth' element={<AuthPage/>}/>
-        <Route path='/home' element={<HomePage/>}/>
+
+        <Route path='/' element={<Landing />} />
+        <Route path='/auth' element={<AuthPage />} />
+
+        {/* Admin Routes */}
+        <Route path='/admin' element={<AdminLayout />}>
+          <Route path='approvals' element={<Approvals/>} />
+          <Route path='manage-cars' element={<ManageCars/>}/>
+        </Route>
       </Routes>
-      </BrowserRouter>
-   
-    
+    </BrowserRouter>
   )
 }
 

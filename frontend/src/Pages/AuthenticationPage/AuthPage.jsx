@@ -3,15 +3,37 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import ClipLoader from "react-spinners/ClipLoader";
 import useVerifyToken from "../../Hooks/useVerifyToken";
-
+import api from "../../api"
+import toast from 'react-hot-toast'
 const AuthPage = () => {
   const { verifyToken } = useVerifyToken();
   const [isSignUp, setIsSignUp] = useState(false);
   const [activeTab, setActiveTab] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading,setIsLoading]=useState(false);
   const navigate = useNavigate();
 
   const { handleSubmitForm,loading } = useAuth(isSignUp, activeTab);
+
+  const handleAdminSignIn = async ({ email, password }) => {
+    setIsLoading(true);
+    
+    try {
+      const response = await api.post("/admin/auth/signin", { email, password });
+      
+      
+      
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        navigate("/admin/approvals");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Admin Sign In Failed");
+    }
+    finally{
+      setIsLoading(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -77,7 +99,11 @@ const AuthPage = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmitForm(formData);
+              if (activeTab === "admin") {
+                handleAdminSignIn({ email: formData.email, password: formData.password });
+              } else {
+                handleSubmitForm(formData);
+              }
             }}
           >
             {isSignUp && (
@@ -160,8 +186,8 @@ const AuthPage = () => {
               type="submit"
               className="w-full py-2 bg-[#0E131F] text-white rounded-lg hover:opacity-90 transition cursor-pointer"
             >
-              {!loading && (activeTab === "admin" ? "Sign In" : isSignUp ? "Sign Up" : "Log In")}
-              {loading && <ClipLoader color="white" loading={loading} size={20} />}
+              {(!loading&&!isLoading) && (activeTab === "admin" ? "Sign In" : isSignUp ? "Sign Up" : "Log In")}
+              {(loading||isLoading) && <ClipLoader color="white" loading={loading||isLoading} size={20} />}
             </button>
           </form>
 
