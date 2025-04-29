@@ -1,0 +1,30 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    environment:
+      - REACT_APP_DOCKER_ENV=true
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5050:5050"
+    environment:
+      - DB_URI=mysql://root:donothackmyaccount@mysql:3306/vit
+      - JWT_KEY=6QKr1RiugRtk5ET
+      - ADMIN_PWD=adminPassword$$2
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=donothackmyaccount
+      - MYSQL_DATABASE=vit
+    ports:
+      - "3050:3050"
